@@ -1,5 +1,3 @@
-# lib/dog.py
-
 class Dog:
     approved_breeds = [
         "Mastiff", "Chihuahua", "Corgi", "Shar Pei", "Beagle",
@@ -8,30 +6,28 @@ class Dog:
 
     def __init__(self, name="Unknown", breed="Unknown"):
         self.name = name
-        self.breed = breed
+        self._breed = breed  # Directly set the default breed without triggering the setter
 
-    def get_name(self):
-        print("Retrieving name.")
+    @property
+    def name(self):
         return self._name
 
-    def set_name(self, name):
-        if isinstance(name, str) and 1 <= len(name) <= 25:
-            print(f"Setting name to {name}.")
-            self._name = name
-        else:
+    @name.setter
+    def name(self, value):
+        if not isinstance(value, str) or len(value) == 0 or len(value) > 25:
             print("Name must be string between 1 and 25 characters.")
+            self._name = "Unknown"
+        else:
+            self._name = value
 
-    name = property(get_name, set_name)
-
-    def get_breed(self):
-        print("Retrieving breed.")
+    @property
+    def breed(self):
         return self._breed
 
-    def set_breed(self, breed):
-        if breed in Dog.approved_breeds:
-            print(f"Setting breed to {breed}.")
-            self._breed = breed
-        else:
+    @breed.setter
+    def breed(self, value):
+        if value != "Unknown" and value not in Dog.approved_breeds:
             print("Breed must be in list of approved breeds.")
-
-    breed = property(get_breed, set_breed)
+            self._breed = "Unknown"
+        else:
+            self._breed = value
