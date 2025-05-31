@@ -6,7 +6,7 @@ class Dog:
 
     def __init__(self, name="Unknown", breed="Unknown"):
         self.name = name
-        self._breed = breed  # Directly set the default breed without triggering the setter
+        self.breed = breed  # Use the setter to ensure validation
 
     @property
     def name(self):
